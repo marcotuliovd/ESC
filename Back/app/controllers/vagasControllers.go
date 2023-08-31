@@ -28,4 +28,19 @@ func EntradaDeVeiculo(c *fiber.Ctx) error {
 			"msg":   err.Error(),
 		})
 	}
+
+	if err := db.EntradaDeVeiculo(vaga); err != nil {
+		// Return status 500 and error message.
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": true,
+			"msg":   err.Error(),
+		})
+	}
+
+	// Return status 200 OK.
+	return c.JSON(fiber.Map{
+		"error": false,
+		"msg":   nil,
+		"vaga":  vaga,
+	})
 }

@@ -2,15 +2,11 @@ package models
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 // Book struct to describe book object.
 type Vaga struct {
-	ID         	uuid.UUID 	`db:"id" json:"id" validate:"required,uuid"`
-	CreatedAt  	time.Time 	`db:"created_at" json:"created_at"`
-	UpdatedAt  	time.Time 	`db:"updated_at" json:"updated_at"`
+	Id         	int	        `db:"id" json:"id"`
 	Porte      	string 		`db:"porte" json:"porte"`
 	Ocupacao   	time.Time 	`db:"ocupacao" json:"ocupacao"`
 	Dono     	string    	`db:"dono" json:"dono" validate:"required,lte=255"`

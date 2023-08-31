@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"Back/app/controllers"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -10,7 +12,5 @@ func VagasRoutes(a *fiber.App) {
 	route := a.Group("/api/v1")
 
 
-	route.Get("/books")
-	route.Get("/book/:id")         
-	route.Get("/token/new") 
+	route.Post("/vagas", controllers.EntradaDeVeiculo)
 }

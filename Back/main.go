@@ -3,6 +3,7 @@ package main
 import (
 	"Back/app/middleware"
 	"Back/app/routes"
+	"Back/app/utils"
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
@@ -13,8 +14,9 @@ func main() {
 
     middleware.FiberMiddleware(app)
 
-    routes.ServicoRoutes(app)
     routes.VagasRoutes(app)
+
+    utils.StartServer(app)
 
     fmt.Println("ON in http://localhost:3000/")
 }
