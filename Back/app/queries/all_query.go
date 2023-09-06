@@ -15,10 +15,10 @@ type VagaQueries struct {
 // CreateBook method for creating book by given Book object.
 func (q *VagaQueries) EntradaDeVeiculo(b *models.Vaga) error {
 	// Define query string.
-	query := `UPDATE public.vagas VALUES dono = $2, telefone = $3, tipo_de-veiculo = $4, placa = $5, modelo = $6, $7, $8 WHERE id = $1`
+	query := `UPDATE vagas SET dono = $1, telefone = $2, tipo_de_veiculo = $3, placa = $4, modelo = $5 WHERE id = $6`
 
 	// Send query to database.
-	_, err := q.Exec(query, b.Id, b.Dono, b.Telefone, b.TipoVeiculo, b.Placa, b.Modelo)
+	_, err := q.Exec(query, b.Dono, b.Telefone, b.TipoVeiculo, b.Placa, b.Modelo, b.Id)
 	if err != nil {
 		// Return only error.
 		return err
