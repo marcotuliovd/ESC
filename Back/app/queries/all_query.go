@@ -18,7 +18,7 @@ func (q *VagaQueries) EntradaDeVeiculo(b *models.Vaga) error {
 	query := `UPDATE vagas SET dono = $1, telefone = $2, tipo_de_veiculo = $3, placa = $4, modelo = $5 WHERE id = $6`
 
 	// Send query to database.
-	_, err := q.Exec(query, b.Dono, b.Telefone, b.TipoVeiculo, b.Placa, b.Modelo, b.Id)
+	_, err := q.Exec(query, b.Dono, b.Telefone, b.TipoDeVeiculo, b.Placa, b.Modelo, b.Id)
 	if err != nil {
 		// Return only error.
 		return err

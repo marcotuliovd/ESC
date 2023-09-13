@@ -11,7 +11,7 @@ type Vaga struct {
 	Ocupacao   	time.Time 	`db:"ocupacao" json:"ocupacao"`
 	Dono     	string    	`db:"dono" json:"dono" validate:"required,lte=255"`
 	Telefone 	string      `db:"telefone" json:"telefone" validate:"required,lte=15"`
-	TipoVeiculo string 		`db:"tipo_veiculo" json:"tipo_veiculo" validate:"required,lte=255"`
+	TipoDeVeiculo string 	`db:"tipo_de_veiculo" json:"tipo_de_veiculo" validate:"required,lte=255"`
 	Placa 		string 		`db:"placa" json:"placa" validate:"required,lte=255"`
 	Modelo 		string 		`db:"modelo" json:"modelo" validate:"required,lte=255"`
 }

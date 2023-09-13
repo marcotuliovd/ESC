@@ -18,7 +18,7 @@ func EntradaDeVeiculo(c *fiber.Ctx) error {
 		})
 	}
 
-	fmt.Println(vaga)
+	fmt.Println(vaga.TipoDeVeiculo)
 
 	db, err := database.OpenDBConnection()
 	if err != nil {
