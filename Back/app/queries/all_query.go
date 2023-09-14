@@ -27,3 +27,19 @@ func (q *VagaQueries) EntradaDeVeiculo(b *models.Vaga) error {
 	// This query returns nothing.
 	return nil
 }
+
+func (q *VagaQueries) GetVagaById(id int) (*models.Vaga, error) {
+	query := `SELECT * from vagas WHERE id = $1`
+
+	vagaOcupada := &models.Vaga{}
+
+	// Send query to database.
+	err := q.Get(&vagaOcupada, query, id)
+	if err != nil {
+		// Return only error.
+		return vagaOcupada, err
+	}
+
+	// This query returns nothing.
+	return vagaOcupada, nil
+}

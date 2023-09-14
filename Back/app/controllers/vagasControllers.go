@@ -44,3 +44,33 @@ func EntradaDeVeiculo(c *fiber.Ctx) error {
 		"vaga":  vaga,
 	})
 }
+
+func SaidaDeVeiculo(c *fiber.Ctx) error {
+	vaga := &models.Vaga{}
+
+	if err := c.BodyParser(vaga); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": true,
+			"msg":   err.Error(),
+		})
+	}
+
+	db, err := database.OpenDBConnection()
+	if err != nil {
+		// Return status 500 and database connection error.
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": true,
+			"msg":   err.Error(),
+		})
+	}
+
+	if vagaOcupada, err := db.GetVagaById(vaga.Id); err != nil {
+		// Return status 500 and error message.
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": true,
+			"msg":   err.Error(),
+		})
+	}
+
+	
+}
