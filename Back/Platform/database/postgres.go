@@ -21,10 +21,6 @@ func PostgreSQLConnection() (*sqlx.DB, error) {
 	// Define database connection for PostgreSQL.
 	db, err := sqlx.Connect("pgx", "host=ledgertest-11683.7tt.cockroachlabs.cloud port=26257 user=marcotulio password=GN_Nlw0kmzlY0vgPYI75pQ dbname=marcopolo")
 	if err != nil {
-		fmt.Println("_____________________________")
-		fmt.Println(os.Getenv("DB_SERVER_URL"))
-		fmt.Println("_____________________________")
-		fmt.Println(err)
 		return nil, fmt.Errorf("error, not connected to database, %w", err)
 	}
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Back/app/config"
 	"Back/app/middleware"
 	"Back/app/routes"
 	"Back/app/utils"
@@ -10,11 +11,12 @@ import (
 )
 
 func main() {
+	config.LoadEnvironmentVariables()
     app := fiber.New()
 
     middleware.FiberMiddleware(app)
 
-    routes.VagasRoutes(app)
+    routes.AllRoutes(app)
 
     utils.StartServer(app)
 

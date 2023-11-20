@@ -3,6 +3,7 @@ package queries
 import (
 	"Back/app/models"
 
+	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -11,35 +12,72 @@ type VagaQueries struct {
 	*sqlx.DB
 }
 
+func (q *VagaQueries) CreateUser(u *models.Clients) (uuid.UUID, error) {
+	u.Id = uuid.New()
+	queryX := `INSERT INTO clients (id, username, name, phone) VALUES ($1, $2, $3, $4)`
+	_, err := q.Exec(queryX, u.Id, u.Username, u.Name, u.Phone)
 
-// CreateBook method for creating book by given Book object.
-func (q *VagaQueries) EntradaDeVeiculo(b *models.Vaga) error {
-	// Define query string.
-	query := `UPDATE vagas SET dono = $1, telefone = $2, tipo_de_veiculo = $3, placa = $4, modelo = $5 WHERE id = $6`
-
-	// Send query to database.
-	_, err := q.Exec(query, b.Dono, b.Telefone, b.TipoDeVeiculo, b.Placa, b.Modelo, b.Id)
 	if err != nil {
-		// Return only error.
+		return u.Id, err
+	}
+
+	return u.Id, nil
+}
+
+func (q *VagaQueries) CreateVehicle(v *models.Vehicle) (uuid.UUID, error) {
+	v.Id = uuid.New()
+	queryX := `INSERT INTO vehicle (id, owner, plate, title, type) VALUES ($1, $2, $3, $4, $5)`
+	_, err := q.Exec(queryX, v.Id, v.Owner, v.Plate, v.Title, v.Type)
+
+	if err != nil {
+		return v.Id, err
+	}
+
+	return v.Id, nil
+}
+
+
+func (q *VagaQueries) OccupationSpace(s *models.Space) (uuid.UUID, error) {
+	s.Id = uuid.New()
+	queryX := `INSERT INTO space (id, type, vehicle_id) VALUES ($1, $2, $3)`
+	_, err := q.Exec(queryX, s.Id, s.Type, s.VehicleId)
+
+	if err != nil {
+		return s.Id, err
+	}
+
+	return s.Id, nil
+}
+
+func (q *VagaQueries) CreateHistory(history *models.History) (error) {
+	history.Id = uuid.New()
+	queryX := `INSERT INTO space (id, amount, vehicle_id, entry, exit, type) VALUES ($1, $2, $3, $4, $5, $6)`
+	_, err := q.Exec(queryX, history.Id, history.Amount, history.VehicleId, history.Entry, history.Exit, history.Type)
+	if err != nil {
 		return err
 	}
 
-	// This query returns nothing.
 	return nil
 }
 
-func (q *VagaQueries) GetVagaById(id int) (*models.Vaga, error) {
-	query := `SELECT * from vagas WHERE id = $1`
+func (q *VagaQueries) GetVagaByVehicleId(VehicleId uuid.UUID, occupation *models.Space) (error) {
+	query := `SELECT * from space WHERE vehicle_id = $1`
 
-	vagaOcupada := &models.Vaga{}
-
-	// Send query to database.
-	err := q.Get(&vagaOcupada, query, id)
+	err := q.Get(&occupation, query, VehicleId)
 	if err != nil {
-		// Return only error.
-		return vagaOcupada, err
+		return err
 	}
 
-	// This query returns nothing.
-	return vagaOcupada, nil
+	return nil
+}
+
+func (q *VagaQueries) DeleteOccupation(SpaceId uuid.UUID) (error) {
+	query := `Delete * from space WHERE id = $1`
+
+	_, err := q.Exec(query, SpaceId)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
