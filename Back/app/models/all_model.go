@@ -6,6 +6,11 @@ import (
 	"github.com/google/uuid"
 )
 
+type RequestServiceReport struct {
+	Init time.Time `json:"init"`
+	Finish time.Time `json:"finish"`
+}
+
 type Space struct {
 	Id         	uuid.UUID	        `db:"id" json:"id"`
 	VehicleId      	uuid.UUID 		`db:"vehicle_id" json:"vehicle_id"`
@@ -42,4 +47,3 @@ type OutVehicle struct {
 	VehicleId uuid.UUID `db:"vehicle_id" json:"vehicle_id"`
 }
 
-type Empty struct {}

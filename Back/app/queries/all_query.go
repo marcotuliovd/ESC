@@ -2,6 +2,7 @@ package queries
 
 import (
 	"Back/app/models"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -83,4 +84,18 @@ func (q *VagaQueries) DeleteOccupation(SpaceId uuid.UUID) (error) {
 	println("success DeleteOccupation")
 
 	return nil
+}
+
+func (q *VagaQueries) ServiceReport(init time.Time, finish time.Time) (*[]models.History,error) {
+	query := `SELECT *
+	FROM history
+	WHERE created_at BETWEEN $1 AND $2;`
+	occupation := &[]models.History{}
+	err := q.Get(occupation, query, init, finish)
+	if err != nil {
+		return nil, err
+	}
+	println("success GetVagaByVehicleId")
+
+	return occupation, nil
 }

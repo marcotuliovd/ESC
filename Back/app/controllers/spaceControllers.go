@@ -114,3 +114,38 @@ func OutVehicle(c *fiber.Ctx) error {
 		"data":  history,
 	})
 }
+
+func ServiceReport(c *fiber.Ctx) (error) {
+	times := &models.RequestServiceReport{}
+
+	if err := c.BodyParser(times); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": true,
+			"msg":   err.Error(),
+		})
+	}
+
+	db, err := database.OpenDBConnection()
+	if err != nil {
+		// Return status 500 and database connection error.
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": true,
+			"msg":   err.Error(),
+		})
+	}
+
+	report, err := db.ServiceReport(times.Init, times.Finish)
+	if err != nil {
+		// Return status 500 and error message.
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": true,
+			"msg":   err.Error(),
+		})
+	}
+
+	// Return status 200 OK.
+	return c.JSON(fiber.Map{
+		"error": false,
+		"space":  report,
+	})
+}
