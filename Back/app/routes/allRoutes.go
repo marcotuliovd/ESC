@@ -13,4 +13,5 @@ func AllRoutes(a *fiber.App) {
 	route.Post("/createUser", controllers.CreateUser)
 	route.Post("/createVehicle", controllers.CreateVehicle)
 	route.Post("/occupationSpace", controllers.EntryVehicle)
+	route.Post("/outSpace", controllers.OutVehicle)
 }

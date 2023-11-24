@@ -41,3 +41,5 @@ type History struct {
 type OutVehicle struct {
 	VehicleId uuid.UUID `db:"vehicle_id" json:"vehicle_id"`
 }
+
+type Empty struct {}

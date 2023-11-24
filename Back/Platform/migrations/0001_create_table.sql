@@ -17,24 +17,24 @@ CREATE TABLE public.vehicle (
     title varchar(255),
     type varchar(255),
     plate varchar(10),
-    created_at timestamp
+    created_at timestamp DEFAULT current_timestamp
 );
 
 CREATE TABLE public.space (
     id UUID PRIMARY KEY,
     vehicle_id UUID,
     type varchar(255),
-    created_at timestamp,
+    created_at timestamp DEFAULT current_timestamp,
     FOREIGN KEY (vehicle_id) REFERENCES vehicle(id)
 );
 
 CREATE TABLE public.history (
     id UUID PRIMARY KEY,
-    amount varchar,
+    amount float,
     vehicle_id UUID,
     entry timestamp,
     exit timestamp,
     type varchar(255),
-    created_at timestamp,
+    created_at timestamp DEFAULT current_timestamp,
     FOREIGN KEY (vehicle_id) REFERENCES vehicle(id)
 );

@@ -61,9 +61,10 @@ func OutVehicle(c *fiber.Ctx) error {
 			"msg":   err.Error(),
 		})
 	}
-	occupation := &models.Space{}
+	 
 
-	if err = db.GetVagaByVehicleId(space.VehicleId, occupation); err != nil {	// Return status 500 and error message.
+	occupation, err := db.GetVagaByVehicleId(space.VehicleId)
+	if err != nil {	// Return status 500 and error message.
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": true,
 			"msg":   err.Error(),
@@ -73,9 +74,12 @@ func OutVehicle(c *fiber.Ctx) error {
 	hourNow := utils.HourNow()
 
 	timeOccupation := hourNow.Sub(occupation.Created_at)
+	println(timeOccupation)
     timeOccupationInt := int(timeOccupation.Minutes())
+	println(timeOccupationInt)
 
 	amount := utils.CalculateAmount(occupation.Type, timeOccupationInt)
+	println(amount)
 
 	history := &models.History{
 		Amount: amount,
@@ -84,6 +88,8 @@ func OutVehicle(c *fiber.Ctx) error {
 		Exit: hourNow,
 		Type: occupation.Type,
 	}
+
+	println(history)
 	
 	if err := db.CreateHistory(history); err != nil {
 		// Return status 500 and error message.

@@ -51,33 +51,36 @@ func (q *VagaQueries) OccupationSpace(s *models.Space) (uuid.UUID, error) {
 
 func (q *VagaQueries) CreateHistory(history *models.History) (error) {
 	history.Id = uuid.New()
-	queryX := `INSERT INTO space (id, amount, vehicle_id, entry, exit, type) VALUES ($1, $2, $3, $4, $5, $6)`
+	queryX := `INSERT INTO history (id, amount, vehicle_id, entry, exit, type) VALUES ($1, $2, $3, $4, $5, $6)`
 	_, err := q.Exec(queryX, history.Id, history.Amount, history.VehicleId, history.Entry, history.Exit, history.Type)
 	if err != nil {
 		return err
 	}
+	println("success CreateHistory")
 
 	return nil
 }
 
-func (q *VagaQueries) GetVagaByVehicleId(VehicleId uuid.UUID, occupation *models.Space) (error) {
-	query := `SELECT * from space WHERE vehicle_id = $1`
-
-	err := q.Get(&occupation, query, VehicleId)
+func (q *VagaQueries) GetVagaByVehicleId(VehicleId uuid.UUID) (*models.Space, error) {
+	query := `SELECT id, vehicle_id, type, created_at from public.space WHERE vehicle_id = $1`
+	occupation := &models.Space{}
+	err := q.Get(occupation, query, VehicleId)
 	if err != nil {
-		return err
+		return nil, err
 	}
+	println("success GetVagaByVehicleId")
 
-	return nil
+	return occupation, nil
 }
 
 func (q *VagaQueries) DeleteOccupation(SpaceId uuid.UUID) (error) {
-	query := `Delete * from space WHERE id = $1`
+	query := `Delete from space WHERE id = $1`
 
 	_, err := q.Exec(query, SpaceId)
 	if err != nil {
 		return err
 	}
+	println("success DeleteOccupation")
 
 	return nil
 }
