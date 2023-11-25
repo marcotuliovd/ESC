@@ -143,9 +143,15 @@ func ServiceReport(c *fiber.Ctx) (error) {
 		})
 	}
 
+	soma := 0
+    for _, elemento := range report {
+        soma += int(elemento.Amount)
+    }
+
 	// Return status 200 OK.
 	return c.JSON(fiber.Map{
 		"error": false,
+		"amountTotal": soma,
 		"space":  report,
 	})
 }

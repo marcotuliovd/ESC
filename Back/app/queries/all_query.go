@@ -86,12 +86,12 @@ func (q *VagaQueries) DeleteOccupation(SpaceId uuid.UUID) (error) {
 	return nil
 }
 
-func (q *VagaQueries) ServiceReport(init time.Time, finish time.Time) (*[]models.History,error) {
-	query := `SELECT *
-	FROM history
-	WHERE created_at BETWEEN $1 AND $2;`
-	occupation := &[]models.History{}
-	err := q.Get(occupation, query, init, finish)
+func (q *VagaQueries) ServiceReport(init time.Time, finish time.Time) ([]models.HistoryReturn,error) {
+	query := `SELECT id, amount, vehicle_id, entry, exit, type, created_at
+		FROM public.history
+		WHERE created_at >= $1 AND created_at <= $2;`
+	occupation := []models.HistoryReturn{}
+	err := q.Select(&occupation, query, init, finish)
 	if err != nil {
 		return nil, err
 	}

@@ -47,3 +47,12 @@ type OutVehicle struct {
 	VehicleId uuid.UUID `db:"vehicle_id" json:"vehicle_id"`
 }
 
+type HistoryReturn struct {
+	Id          	uuid.UUID	        `db:"id" json:"id"`
+    Amount float32 `db:"amount" json:"amount"`
+    VehicleId uuid.UUID `db:"vehicle_id" json:"vehicle_id"`
+    Entry time.Time `db:"entry" json:"entry"`
+    Exit time.Time `db:"exit" json:"exit"`
+    Type string `db:"type" json:"type"`
+	Created_at time.Time `db:"created_at" json:"created_at"`
+}
