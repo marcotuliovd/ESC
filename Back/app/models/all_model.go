@@ -9,6 +9,8 @@ import (
 type RequestServiceReport struct {
 	Init time.Time `json:"init"`
 	Finish time.Time `json:"finish"`
+	User string `json:"user"`
+	Password string `json:"password"`
 }
 
 type Space struct {

@@ -39,6 +39,7 @@ func EntryVehicle(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"error": false,
 		"msg":   nil,
+		"id": space.Id,
 		"space":  space,
 	})
 }
@@ -74,12 +75,8 @@ func OutVehicle(c *fiber.Ctx) error {
 	hourNow := utils.HourNow()
 
 	timeOccupation := hourNow.Sub(occupation.Created_at)
-	println(timeOccupation)
     timeOccupationInt := int(timeOccupation.Minutes())
-	println(timeOccupationInt)
-
 	amount := utils.CalculateAmount(occupation.Type, timeOccupationInt)
-	println(amount)
 
 	history := &models.History{
 		Amount: amount,
@@ -89,8 +86,7 @@ func OutVehicle(c *fiber.Ctx) error {
 		Type: occupation.Type,
 	}
 
-	println(history)
-	
+
 	if err := db.CreateHistory(history); err != nil {
 		// Return status 500 and error message.
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -111,6 +107,10 @@ func OutVehicle(c *fiber.Ctx) error {
 	// Return status 200 OK.
 	return c.JSON(fiber.Map{
 		"error": false,
+		"amount": amount,
+		"exit": history.Exit,
+		"entry": history.Entry,
+		"type": history.Type,
 		"data":  history,
 	})
 }
@@ -122,6 +122,20 @@ func ServiceReport(c *fiber.Ctx) (error) {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": true,
 			"msg":   err.Error(),
+		})
+	}
+
+	if times.User != "admin" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": true,
+			"msg":   "user de login errado",
+		})
+	}
+
+	if times.Password != "admin" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": true,
+			"msg":   "password de login errado",
 		})
 	}
 

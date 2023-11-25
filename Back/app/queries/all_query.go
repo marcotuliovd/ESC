@@ -57,8 +57,6 @@ func (q *VagaQueries) CreateHistory(history *models.History) (error) {
 	if err != nil {
 		return err
 	}
-	println("success CreateHistory")
-
 	return nil
 }
 
@@ -69,20 +67,15 @@ func (q *VagaQueries) GetVagaByVehicleId(VehicleId uuid.UUID) (*models.Space, er
 	if err != nil {
 		return nil, err
 	}
-	println("success GetVagaByVehicleId")
-
 	return occupation, nil
 }
 
 func (q *VagaQueries) DeleteOccupation(SpaceId uuid.UUID) (error) {
 	query := `Delete from space WHERE id = $1`
-
 	_, err := q.Exec(query, SpaceId)
 	if err != nil {
 		return err
 	}
-	println("success DeleteOccupation")
-
 	return nil
 }
 
@@ -95,7 +88,5 @@ func (q *VagaQueries) ServiceReport(init time.Time, finish time.Time) ([]models.
 	if err != nil {
 		return nil, err
 	}
-	println("success GetVagaByVehicleId")
-
 	return occupation, nil
 }
