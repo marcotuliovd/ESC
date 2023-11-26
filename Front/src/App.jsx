@@ -1,5 +1,6 @@
 import './App.css'
 import CreateVehicle from './createVehicle';
+import Header from './header';
 import EntryVehicle from './occupationSpace';
 import CreateUser from './page';
 import ReportService from './reportService';
@@ -8,6 +9,7 @@ import VehicleOut from './vehicleOut';
 function App() {
   return (
     <div>
+      <Header/>
       <h1>Formulário de Criação de Cliente</h1>
       <CreateUser />
       <br></br>
